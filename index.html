@@ -1,423 +1,916 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ad Pacing Calculator</title>
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-      line-height: 1.5;
-      color: #333;
-    }
-    
-    h1 {
-      color: #1a73e8;
-      margin-bottom: 30px;
-    }
-    
-    .form-container {
-      background-color: #f7f7f7;
-      padding: 25px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      margin-bottom: 30px;
-    }
-    
-    .form-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      margin-bottom: 20px;
-    }
-    
-    .form-group {
-      flex: 1;
-      min-width: 200px;
-    }
-    
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-    }
-    
-    input {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-    
-    button {
-      background-color: #1a73e8;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: 500;
-      transition: background-color 0.2s;
-    }
-    
-    button:hover {
-      background-color: #1557b0;
-    }
-    
-    .results {
-      background-color: #fff;
-      padding: 25px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    .metric {
-      margin-bottom: 20px;
-    }
-    
-    .metric-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    
-    .metric-name {
-      font-weight: 500;
-      font-size: 18px;
-    }
-    
-    .metric-value {
-      font-weight: 700;
-      font-size: 18px;
-    }
-    
-    .progress-bar-container {
-      height: 12px;
-      background-color: #e0e0e0;
-      border-radius: 6px;
-      overflow: hidden;
-      margin-bottom: 4px;
-    }
-    
-    .progress-bar {
-      height: 100%;
-      border-radius: 6px;
-    }
-    
-    .positive {
-      color: #34a853;
-    }
-    
-    .negative {
-      color: #ea4335;
-    }
-    
-    .warning {
-      color: #fbbc04;
-    }
-    
-    .explanation {
-      font-size: 14px;
-      color: #666;
-      margin-top: 5px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrandUnknown - Track Smarter. Optimize Better.</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Global Styles */
+        :root {
+            --primary: #4A6FFF;
+            --secondary: #FF6B4A;
+            --dark: #22304A;
+            --light: #F8FAFF;
+            --gray: #E9EDF5;
+            --text: #3A4A65;
+        }
 
-    .legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin-top: 20px;
-      font-size: 14px;
-    }
-    
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    
-    .legend-color {
-      width: 12px;
-      height: 12px;
-      border-radius: 3px;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
 
-    @media (max-width: 600px) {
-      .form-row {
-        flex-direction: column;
-        gap: 15px;
-      }
-      
-      .form-group {
-        width: 100%;
-      }
-    }
-  </style>
+        body {
+            color: var(--text);
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--dark);
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(74, 111, 255, 0.2);
+        }
+
+        .btn-large {
+            font-size: 18px;
+            padding: 16px 38px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Header */
+        header {
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 24px;
+            color: var(--dark);
+            text-decoration: none;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--light) 0%, white 100%);
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .hero-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .hero-image {
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            background: linear-gradient(90deg, var(--dark) 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 32px;
+            color: var(--text);
+            max-width: 500px;
+        }
+
+        .hero .small-text {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-top: 16px;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .hero-image img:hover {
+            transform: translateY(-5px);
+        }
+
+        .platform-logos {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .platform-logo {
+            height: 24px;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .platform-logo:hover {
+            opacity: 1;
+        }
+
+        /* Problem & Solution Section */
+        .problem-solution {
+            background-color: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 36px;
+            margin-bottom: 16px;
+        }
+
+        .section-title p {
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--text);
+        }
+
+        .problem-solution-container {
+            display: flex;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .problem, .solution {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .problem-solution-item {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            align-items: flex-start;
+        }
+
+        .problem-solution-icon {
+            min-width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .problem .problem-solution-icon {
+            background-color: rgba(255, 107, 74, 0.1);
+            color: var(--secondary);
+        }
+
+        .solution .problem-solution-icon {
+            background-color: rgba(74, 111, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .problem-solution-text h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .problem-solution-text p {
+            color: var(--text);
+        }
+
+        /* Features Section */
+        .features {
+            background-color: var(--light);
+        }
+
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 32px 24px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            background-color: rgba(74, 111, 255, 0.1);
+            color: var(--primary);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 24px;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        /* Target Audience Section */
+        .audience {
+            background-color: white;
+        }
+
+        .audience-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .audience-card {
+            text-align: center;
+            padding: 40px 24px;
+            border-radius: 12px;
+            background-color: var(--light);
+            transition: all 0.3s ease;
+        }
+
+        .audience-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05);
+        }
+
+        .audience-icon {
+            font-size: 48px;
+            margin-bottom: 24px;
+            color: var(--primary);
+        }
+
+        .audience-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        /* Early Access Benefits */
+        .benefits {
+            background-color: var(--light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefits:before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(74, 111, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+            top: -150px;
+            right: -150px;
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .benefits-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .benefit-list {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .benefit-item {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            background-color: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .benefit-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .benefit-number {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+            min-width: 40px;
+        }
+
+        .benefit-icon {
+            font-size: 24px;
+            color: var(--secondary);
+        }
+
+        .benefit-text h3 {
+            margin-bottom: 8px;
+        }
+
+        .urgency-badge {
+            background-color: rgba(255, 107, 74, 0.1);
+            color: var(--secondary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 32px;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background-color: white;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background-color: var(--light);
+            border-radius: 12px;
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .testimonial-text:before {
+            content: '"';
+            font-size: 48px;
+            color: rgba(74, 111, 255, 0.2);
+            position: absolute;
+            top: -20px;
+            left: -10px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--primary);
+        }
+
+        .testimonial-info h4 {
+            margin-bottom: 4px;
+        }
+
+        .testimonial-info p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, var(--primary) 0%, #6A93FF 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .cta h2 {
+            color: white;
+            font-size: 36px;
+            margin-bottom: 24px;
+        }
+
+        .cta p {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            font-size: 18px;
+        }
+
+        .signup-form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+        }
+
+        .form-control {
+            padding: 12px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: white;
+        }
+
+        .btn-cta {
+            background-color: white;
+            color: var(--primary);
+            font-weight: 700;
+            padding: 16px;
+            font-size: 18px;
+            margin-top: 16px;
+        }
+
+        .btn-cta:hover {
+            background-color: var(--light);
+        }
+
+        .security-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 16px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        /* Form Success Message */
+        .form-success {
+            display: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 16px;
+        }
+
+        .form-success.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .form-success i {
+            font-size: 48px;
+            color: #4CD964;
+            margin-bottom: 16px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 40px 0;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+
+        .footer-logo {
+            color: white;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: white;
+        }
+
+        .copyright {
+            margin-top: 32px;
+            opacity: 0.6;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        /* Mobile Sticky CTA */
+        .mobile-cta {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            padding: 16px;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+
+        .mobile-cta .btn {
+            width: 100%;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            section {
+                padding: 60px 0;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .section-title h2 {
+                font-size: 30px;
+            }
+
+            .mobile-cta {
+                display: block;
+            }
+
+            body {
+                padding-bottom: 76px;
+            }
+            
+            .hero-content, .problem-solution-container {
+                flex-direction: column;
+            }
+            
+            .hero-image {
+                order: -1;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .fade-in-1 { animation-delay: 0.1s; }
+        .fade-in-2 { animation-delay: 0.2s; }
+        .fade-in-3 { animation-delay: 0.3s; }
+
+        /* Form validation styles */
+        .form-control.error {
+            border-color: #FF3B30;
+        }
+
+        .error-message {
+            color: #FF3B30;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+    </style>
 </head>
 <body>
-  <h1>Ad Pacing Calculator</h1>
-  
-  <div class="form-container">
-    <div class="form-row">
-      <div class="form-group">
-        <label for="startDate">Start Date</label>
-        <input type="date" id="startDate">
-      </div>
-      <div class="form-group">
-        <label for="endDate">End Date</label>
-        <input type="date" id="endDate">
-      </div>
-    </div>
-    
-    <div class="form-row">
-      <div class="form-group">
-        <label for="totalBudget">Total Budget ($)</label>
-        <input type="number" id="totalBudget" min="0" step="0.01" placeholder="Enter total budget">
-      </div>
-      <div class="form-group">
-        <label for="budgetSpent">Budget Spent So Far ($)</label>
-        <input type="number" id="budgetSpent" min="0" step="0.01" placeholder="Enter amount spent">
-      </div>
-    </div>
-    
-    <button onclick="calculatePacing()">Calculate Pacing</button>
-  </div>
-  
-  <div id="results" class="results" style="display: none;">
-    <h2>Pacing Results</h2>
-    
-    <div class="metric">
-      <div class="metric-header">
-        <div class="metric-name">Campaign Timeline Progress</div>
-        <div class="metric-value" id="timeProgress"></div>
-      </div>
-      <div class="progress-bar-container">
-        <div class="progress-bar" id="timeProgressBar" style="background-color: #1a73e8;"></div>
-      </div>
-      <div class="explanation">Percentage of campaign duration that has elapsed</div>
-    </div>
-    
-    <div class="metric">
-      <div class="metric-header">
-        <div class="metric-name">Budget Utilization</div>
-        <div class="metric-value" id="budgetProgress"></div>
-      </div>
-      <div class="progress-bar-container">
-        <div class="progress-bar" id="budgetProgressBar"></div>
-      </div>
-      <div class="explanation">Percentage of total budget that has been spent</div>
-    </div>
-    
-    <div class="metric">
-      <div class="metric-header">
-        <div class="metric-name">Pacing Status</div>
-        <div class="metric-value" id="pacingStatus"></div>
-      </div>
-      <div class="explanation" id="pacingExplanation"></div>
-    </div>
-    
-    <div class="metric">
-      <div class="metric-header">
-        <div class="metric-name">Remaining Budget</div>
-        <div class="metric-value" id="remainingBudget"></div>
-      </div>
-      <div class="explanation">Amount left to spend for the campaign</div>
-    </div>
-    
-    <div class="metric">
-      <div class="metric-header">
-        <div class="metric-name">Daily Budget Recommendation</div>
-        <div class="metric-value" id="dailyBudget"></div>
-      </div>
-      <div class="explanation">Recommended daily spend for the remainder of the campaign</div>
-    </div>
-    
-    <div class="metric">
-      <div class="metric-header">
-        <div class="metric-name">Current Daily Average</div>
-        <div class="metric-value" id="currentDaily"></div>
-      </div>
-      <div class="explanation">Average amount spent per day so far</div>
-    </div>
-    
-    <div class="legend">
-      <div class="legend-item">
-        <div class="legend-color" style="background-color: #34a853;"></div>
-        <span>Under budget (good)</span>
-      </div>
-      <div class="legend-item">
-        <div class="legend-color" style="background-color: #fbbc04;"></div>
-        <span>Slightly off pace (monitor)</span>
-      </div>
-      <div class="legend-item">
-        <div class="legend-color" style="background-color: #ea4335;"></div>
-        <span>Significantly off pace (action needed)</span>
-      </div>
-    </div>
-  </div>
+    <!-- Header -->
+    <header>
+        <div class="container nav-container">
+            <a href="#" class="logo">BrandUnknown</a>
+            <a href="#join" class="btn">Join the Beta</a>
+        </div>
+    </header>
 
-  <script>
-    // Set default date values
-    document.addEventListener('DOMContentLoaded', function() {
-      const today = new Date();
-      const oneMonthLater = new Date();
-      oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
-      
-      document.getElementById('startDate').valueAsDate = today;
-      document.getElementById('endDate').valueAsDate = oneMonthLater;
-    });
-    
-    function calculatePacing() {
-      // Get input values
-      const startDate = new Date(document.getElementById('startDate').value);
-      const endDate = new Date(document.getElementById('endDate').value);
-      const totalBudget = parseFloat(document.getElementById('totalBudget').value);
-      const budgetSpent = parseFloat(document.getElementById('budgetSpent').value);
-      
-      // Validate inputs
-      if (isNaN(startDate) || isNaN(endDate) || isNaN(totalBudget) || isNaN(budgetSpent)) {
-        alert('Please fill in all fields with valid values.');
-        return;
-      }
-      
-      if (endDate <= startDate) {
-        alert('End date must be after start date.');
-        return;
-      }
-      
-      if (totalBudget <= 0) {
-        alert('Total budget must be greater than zero.');
-        return;
-      }
-      
-      if (budgetSpent < 0 || budgetSpent > totalBudget) {
-        alert('Budget spent must be between 0 and total budget.');
-        return;
-      }
-      
-      // Calculate metrics
-      const today = new Date();
-      
-      // If campaign hasn't started yet
-      if (today < startDate) {
-        alert('Campaign has not started yet. Please check your dates.');
-        return;
-      }
-      
-      // If campaign is already over
-      if (today > endDate) {
-        const timeProgress = 100;
-        const budgetProgress = (budgetSpent / totalBudget) * 100;
-        
-        // Update UI
-        document.getElementById('timeProgress').textContent = `100%`;
-        document.getElementById('timeProgressBar').style.width = `100%`;
-        
-        document.getElementById('budgetProgress').textContent = `${budgetProgress.toFixed(1)}%`;
-        document.getElementById('budgetProgressBar').style.width = `${budgetProgress}%`;
-        
-        const remainingBudget = totalBudget - budgetSpent;
-        document.getElementById('remainingBudget').textContent = `$${remainingBudget.toFixed(2)}`;
-        
-        if (Math.abs(budgetProgress - 100) <= 5) {
-          document.getElementById('pacingStatus').textContent = 'On Target';
-          document.getElementById('pacingStatus').className = 'metric-value positive';
-          document.getElementById('budgetProgressBar').style.backgroundColor = '#34a853';
-          document.getElementById('pacingExplanation').textContent = 'Campaign completed with spending close to budget.';
-        } else if (budgetProgress < 95) {
-          document.getElementById('pacingStatus').textContent = 'Underspent';
-          document.getElementById('pacingStatus').className = 'metric-value negative';
-          document.getElementById('budgetProgressBar').style.backgroundColor = '#ea4335';
-          document.getElementById('pacingExplanation').textContent = 'Campaign ended with significant underspending.';
-        } else {
-          document.getElementById('pacingStatus').textContent = 'Overspent';
-          document.getElementById('pacingStatus').className = 'metric-value negative';
-          document.getElementById('budgetProgressBar').style.backgroundColor = '#ea4335';
-          document.getElementById('pacingExplanation').textContent = 'Campaign ended with budget overspend.';
-        }
-        
-        document.getElementById('dailyBudget').textContent = 'N/A (Campaign Ended)';
-        document.getElementById('currentDaily').textContent = `$${(budgetSpent / ((endDate - startDate) / (1000 * 60 * 60 * 24))).toFixed(2)}`;
-        
-        document.getElementById('results').style.display = 'block';
-        return;
-      }
-      
-      // Calculate total campaign duration in days
-      const campaignDuration = (endDate - startDate) / (1000 * 60 * 60 * 24);
-      
-      // Calculate elapsed duration in days
-      const elapsedDuration = (today - startDate) / (1000 * 60 * 60 * 24);
-      
-      // Calculate remaining duration in days
-      const remainingDuration = (endDate - today) / (1000 * 60 * 60 * 24);
-      
-      // Calculate metrics
-      const timeProgress = (elapsedDuration / campaignDuration) * 100;
-      const budgetProgress = (budgetSpent / totalBudget) * 100;
-      const pacingDifference = budgetProgress - timeProgress;
-      const remainingBudget = totalBudget - budgetSpent;
-      const idealBudgetSpent = totalBudget * (elapsedDuration / campaignDuration);
-      const dailyIdealBudget = totalBudget / campaignDuration;
-      const dailyRecommendedBudget = remainingBudget / remainingDuration;
-      const currentDailyAverage = budgetSpent / elapsedDuration;
-      
-      // Update UI
-      document.getElementById('timeProgress').textContent = `${timeProgress.toFixed(1)}%`;
-      document.getElementById('timeProgressBar').style.width = `${timeProgress}%`;
-      
-      document.getElementById('budgetProgress').textContent = `${budgetProgress.toFixed(1)}%`;
-      document.getElementById('budgetProgressBar').style.width = `${budgetProgress}%`;
-      
-      document.getElementById('remainingBudget').textContent = `$${remainingBudget.toFixed(2)}`;
-      document.getElementById('dailyBudget').textContent = `$${dailyRecommendedBudget.toFixed(2)}`;
-      document.getElementById('currentDaily').textContent = `$${currentDailyAverage.toFixed(2)}`;
-      
-      // Determine pacing status
-      let pacingStatus, pacingColor, pacingExplanation;
-      if (Math.abs(pacingDifference) <= 5) {
-        pacingStatus = 'On Target';
-        pacingColor = '#34a853'; // green
-        pacingExplanation = 'Your spending is aligned with your campaign timeline.';
-      } else if (pacingDifference > 15) {
-        pacingStatus = 'Significantly Overpacing';
-        pacingColor = '#ea4335'; // red
-        pacingExplanation = `You've spent ${pacingDifference.toFixed(1)}% more of your budget than the elapsed campaign time. At this rate, you'll run out of budget before the end date.`;
-      } else if (pacingDifference > 5) {
-        pacingStatus = 'Slightly Overpacing';
-        pacingColor = '#fbbc04'; // yellow
-        pacingExplanation = `You're spending slightly faster than planned. Consider reducing daily spend.`;
-      } else if (pacingDifference < -15) {
-        pacingStatus = 'Significantly Underpacing';
-        pacingColor = '#ea4335'; // red
-        pacingExplanation = `You've spent ${Math.abs(pacingDifference).toFixed(1)}% less of your budget than the elapsed campaign time. You may not utilize your full budget by the end date.`;
-      } else {
-        pacingStatus = 'Slightly Underpacing';
-        pacingColor = '#fbbc04'; // yellow
-        pacingExplanation = `You're spending slightly slower than planned. Consider increasing daily spend to use full budget.`;
-      }
-      
-      document.getElementById('pacingStatus').textContent = pacingStatus;
-      document.getElementById('budgetProgressBar').style.backgroundColor = pacingColor;
-      document.getElementById('pacingExplanation').textContent = pacingExplanation;
-      
-      // Style pacing status
-      if (pacingStatus === 'On Target') {
-        document.getElementById('pacingStatus').className = 'metric-value positive';
-      } else if (pacingStatus.includes('Slightly')) {
-        document.getElementById('pacingStatus').className = 'metric-value warning';
-      } else {
-        document.getElementById('pacingStatus').className = 'metric-value negative';
-      }
-      
-      document.getElementById('results').style.display = 'block';
-    }
-  </script>
-</body>
-</html>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text fade-in fade-in-1">
+                    <h1>Track Smarter. Optimize Better.</h1>
+                    <p>One dashboard for all your ads. Real-time insights for data-driven decisions.</p>
+                    <a href="#join" class="btn btn-large">Join the Beta – It's FREE!</a>
+                    <p class="small-text">Limited spots available. No credit card required.</p>
+                </div>
+                <div class="hero-image fade-in fade-in-2">
+                    <img src="/api/placeholder/600/400" alt="BrandUnknown Dashboard Mockup">
+                    <div class="platform-logos">
+                        <img src="/api/placeholder/80/24" alt="Google Ads" class="platform-logo">
+                        <img src="/api/placeholder/80/24" alt="Meta Ads" class="platform-logo">
+                        <img src="/api/placeholder/80/24" alt="TikTok Ads" class="platform-logo">
+                        <img src="/api/placeholder/80/24" alt="LinkedIn Ads" class="platform-logo">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem & Solution Section -->
+    <section class="problem-solution">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Why BrandUnknown?</h2>
+                <p>Turn ad management frustrations into strategic advantages</p>
+            </div>
+            <div class="problem-solution-container">
+                <div class="problem fade-in fade-in-1">
+                    <h3 class="text-center" style="margin-bottom: 32px; color: var(--secondary);">Common Challenges</h3>
+                    
+                    <div class="problem-solution-item">
+                        <div class="problem-solution-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="problem-solution-text">
+                            <h3>Wasted Ad Spend</h3>
+                            <p>Companies waste up to 26% of their budget on ineffective campaigns without realizing it.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="problem-solution-item">
+                        <div class="problem-solution-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="problem-solution-text">
+                            <h3>Siloed Data</h3>
+                            <p>Managing multiple ad platforms means scattered data and inconsistent reporting.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="problem-solution-item">
+                        <div class="problem-solution-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="problem-solution-text">
+                            <h3>Time Consumption</h3>
+                            <p>Marketers spend an average of 4 hours weekly just switching between platforms.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="solution fade-in fade-in-2">
+                    <h3 class="text-center" style="margin-bottom: 32px; color: var(--primary);">BrandUnknown Solutions</h3>
+                    
+                    <div class="problem-solution-item">
+                        <div class="problem-solution-icon">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="problem-solution-text">
+                            <h3>Real-Time Tracking</h3>
+                            <p>Immediately identify which campaigns are performing and which are draining resources.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="problem-solution-item">
+                        <div class="problem-solution-icon">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="problem-solution-text">
+                            <h3>Unified Analytics</h3>
+                            <p>See consistent metrics across all channels in one unified dashboard with custom reports.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="problem-solution-item">
+                        <div class="problem-solution-icon">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="problem-solution-text">
+                            <h3>Time-Saving Automation</h3>
+                            <p>Cut reporting time by 70% with automated data collection and pre-built dashboard templates.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Key Features</h2>
+                <p>Everything you need to optimize your ad performance</p>
+            </div>
+            <div class="features-container">
+                <div class="feature-card fade-in fade-in-1">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Real-Time Ad Tracking</h3>
+                    <p>Monitor all your campaigns from Google, Meta, TikTok, and more in a single dashboard with live performance metrics.</p>
+                </div>
+                
+                <div class="feature-card fade-in fade-in-2">
+                    <div class="feature-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Data-Backed Insights</h3>
+                    <p>Identify high & low-performing campaigns with AI-powered recommendations to optimize your spending strategy.</p>
+                </div>
+                
+                <div class="feature-card fade-in fade-in-3">
+                    <div class="feature-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3>Unified Dashboard</h3>
+                    <p>No more switching between multiple platforms. Get a complete overview of all your marketing channels in one place.</p>
+                </div>
+                
+                <div class="feature-card fade-in fade-in-3">
+                    <div class="feature-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>Easy Setup</h3>
+                    <p>No coding required, connect your ad accounts in minutes and start seeing actionable insights immediately.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Target Audience Section -->
+    <section class="audience">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Who Benefits from BrandUnknown?</h2>
+                <p>The perfect solution for businesses of all sizes</p>
+            </div>
+            <div class="audience-container">
+                <div class="audience-card fade-in fade-in-1">
+                    <div class="audience-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h3>Small Business Owners & eCommerce</h3>
+                    <p>Make every ad dollar count with insights that help you compete against larger businesses without wasting precious budget.</p>
+                </div>
+                
+                <div class="audience-card fade-in fade-in-2">
+                    <div class="audience-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>Realtors & Property Managers</h3>
+                    <p>Track lead generation ROI across platforms and identify which property listings are getting the most engagement.</p>
+                </div>
+                
+                <div class="audience-card fade-in fade-in-3">
+                    <div class="audience-icon">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <h3>Digital Marketers & Agencies</h3>
+                    <p>Impress clients with professional, cross-platform reporting and deliver better results with data-backed optimization.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Early Access Benefits Section -->
+    <section class="benefits">
+        <div class="container benefits-container">
+            <div class="section-title fade-in">
+                <h2>Early Access Benefits</h2>
+                <p>Join the beta program and get exclusive perks</p>
+            </div>
+            <div class="benefit-list">
+                <div class="benefit-item fade-in fade-in-1">
+                    <div class="benefit-number">1</div>
+                    <div class="benefit-icon">🚀</div>
+                    <div class="benefit-text">
+                        <h3>Free Early Access</h3>
+                        <p>Get full access to all premium features before public launch at no cost during the entire beta period.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item fade-in fade-in-2">
+                    <div class="benefit-number">2</div>
+                    <div class="benefit-icon">🎁</div>
+                    <div class="benefit-text">
+                        <h3>Lifetime Discount</h3>
+                        <p>Beta users receive a permanent discount on all product plans after the official launch.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item fade-in fade-in-3">
+                    <div class="benefit-number">3</div>
+                    <div class="benefit-icon">📢</div>
+                    <div class="benefit-text">
+                        <h3>Direct Feature Influence</h3>
+                        <p>Shape the product roadmap with direct access to our development team and priority feature requests.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="urgency-badge fade-in">
+                    <i class="fas fa-hourglass-half"></i> Only 50 beta spots remaining
+                </div>
+                <div style="margin-top: 32px;">
+                    <a href="#join" class="btn btn-large fade-in">Secure Your Spot Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
